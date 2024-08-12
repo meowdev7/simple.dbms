@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimpleDB Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #e0e0e0;
+            background: #0a0a0a;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #f1c40f;
+        }
+        h2 {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .example {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid #f1c40f;
+            padding: 10px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9em;
+        }
+        .discord-link {
+            color: #1da1f2;
+            text-decoration: none;
+        }
+        .discord-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SimpleDB Documentation</h1>
+    </header>
+    <div class="container">
+        <h2>Introduction</h2>
+        <p>SimpleDB is a lightweight, file-based NoSQL database designed for simplicity and ease of use. It supports basic operations such as creating tables, inserting, updating, and deleting records. This document provides a comprehensive guide on how to use SimpleDB effectively.</p>
+
+        <h2>Getting Started</h2>
+        <p>To get started with SimpleDB, you first need to install the package and set up your environment. Below is a basic example:</p>
+        
+        <div class="example">
+            <pre><code>const { SimpleDB, Schema, Model } = require('simple.dbms');
+const path = require('path');
+
+// Initialize SimpleDB
+const db = new SimpleDB(path.resolve(__dirname, 'database.spdb'));
+
+// Define a schema
+const userSchema = new Schema({
+    userId: { type: 'string', unique: true },
+    balance: { type: 'number', default: 0 }
+});
+
+// Create a model
+const UserModel = new Model('users', userSchema, db);
+</code></pre>
+        </div>
+
+        <h2>Schema Definition</h2>
+        <p>A schema defines the structure of the data you store in your database. Each schema consists of fields and their respective types. Here's how to define a schema:</p>
+
+        <div class="example">
+            <pre><code>const userSchema = new Schema({
+    userId: { type: 'string', unique: true },
+    balance: { type: 'number', default: 0 }
+});
+</code></pre>
+        </div>
+
+        <h2>Basic Operations</h2>
+        <h3>Creating Records</h3>
+        <p>To create a new record, use the <code>create</code> method:</p>
+
+        <div class="example">
+            <pre><code>const newUser = { userId: '12345', balance: 100 };
+await UserModel.create(newUser);
+</code></pre>
+        </div>
+
+        <h3>Finding Records</h3>
+        <p>To find records, use the <code>find</code> or <code>findOne</code> methods:</p>
+
+        <div class="example">
+            <pre><code>const user = await UserModel.findOne({ userId: '12345' });
+console.log(user); // Output: { userId: '12345', balance: 100 }
+</code></pre>
+        </div>
+
+        <h3>Updating Records</h3>
+        <p>To update a record, use the <code>update</code> method:</p>
+
+        <div class="example">
+            <pre><code>await UserModel.update({ userId: '12345' }, { balance: 200 });
+</code></pre>
+        </div>
+
+        <h3>Deleting Records</h3>
+        <p>To delete a record, use the <code>delete</code> method:</p>
+
+        <div class="example">
+            <pre><code>await UserModel.delete({ userId: '12345' });
+</code></pre>
+        </div>
+
+        <h2>Advanced Features</h2>
+        <h3>Auto-Increment Fields</h3>
+        <p>You can define auto-incrementing fields in your schema:</p>
+
+        <div class="example">
+            <pre><code>const autoIncrementSchema = new Schema({
+    id: { type: 'number', autoIncrement: true },
+    name: { type: 'string' }
+});
+</code></pre>
+        </div>
+
+        <h3>Unique Fields</h3>
+        <p>To ensure that a field value is unique, set the <code>unique</code> property:</p>
+
+        <div class="example">
+            <pre><code>const userSchema = new Schema({
+    email: { type: 'string', unique: true }
+});
+</code></pre>
+        </div>
+
+        <h2>Credits and Support</h2>
+        <p>This package was created by <strong>meowdev7</strong>. For support or to join the community, visit our Discord server:</p>
+        <a href="https://discord.gg/VsBUJafTQd" class="discord-link">Join our Discord Server</a>
+    </div>
+    <footer>
+        <p>© 2024 meowdev7. All rights reserved.</p>
+    </footer>
+</body>
+</html>
